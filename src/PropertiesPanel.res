@@ -18,7 +18,7 @@ module Collapsible = {
 let make = () =>
   <aside className="PropertiesPanel">
     <Collapsible title="Margins & Padding">
-      <span> {React.string("TODO: build me!")} </span>
+      <MarginPadding/>
     </Collapsible>
     <Collapsible title="Size"> <span> {React.string("example")} </span> </Collapsible>
   </aside>

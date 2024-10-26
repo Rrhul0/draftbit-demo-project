@@ -1,25 +1,112 @@
 .PropertiesPanel {
-  width: 320px;
-  background-color: #3d4b6c;
-  height: 100vh;
+	width: 380px;
+	background-color: #28334d;
+	height: 100vh;
 }
 
 .Collapsible {
-  margin-bottom: 2px;
+	margin-bottom: 2px;
 }
 
 .Collapsible-button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background-color: #28334d;
-  border: none;
-  padding: 8px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	background-color: #3d4b6c;
+	border: none;
+	padding: 8px;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 .Collapsible-content {
-  margin: 8px;
+	margin: 8px;
+}
+
+.Outerbox {
+	background-color: #3d4b6c;
+	width: 100%;
+	aspect-ratio: 5.5/3.5;
+	border-radius: 8px;
+	display: grid;
+	place-items: center;
+	position: relative;
+}
+
+.Innerbox {
+	width: 60%;
+	height: 40%;
+	border: #28334d 6px solid;
+	position: relative;
+}
+
+.ValueBox {
+	/* width: min-content; */
+	position: relative;
+	background-color: #3d4b6c;
+	display: grid;
+	place-items: center;
+	position: absolute;
+	z-index: 5;
+}
+[id$='Top'] {
+	top: 1rem;
+	left: 50%;
+	transform: translate(-50%, 0%);
+}
+
+[id$='Bottom'] {
+	bottom: 1rem;
+	left: 50%;
+	transform: translate(-50%, 0%);
+}
+
+[id$='Left'] {
+	left: 0.5rem;
+	top: 50%;
+	transform: translate(0%, -50%);
+}
+
+[id$='Right'] {
+	right: 0.5rem;
+	top: 50%;
+	transform: translate(0%, -50%);
+}
+
+.Innerbox .ValueBox[id$='Top'] {
+	top: 0rem;
+}
+.Innerbox .ValueBox[id$='Bottom'] {
+	bottom: 0rem;
+}
+.Innerbox .ValueBox[id$='Left'] {
+	left: 0rem;
+}
+.Innerbox .ValueBox[id$='Right'] {
+	right: 0rem;
+}
+
+input {
+	color: white;
+	font-size: 1rem;
+	padding-block: 6px;
+	background-color: #3d4b6c;
+	outline: none;
+	border: none;
+	text-align: center;
+	width: 3rem;
+}
+
+input:focus {
+	outline: none;
+	border-radius: 8px;
+	box-shadow: 0 0 0 2px #41a1f0;
+	background-color: #28334d;
+	border: none;
+	transition: all 0.1s;
+}
+
+.updated {
+	border-bottom: 1px dashed yellow;
 }
