@@ -1,10 +1,12 @@
 import 'dotenv/config'
 import { Client } from 'pg'
-import { backOff } from 'exponential-backoff'
 import express from 'express'
 import waitOn from 'wait-on'
 import onExit from 'signal-exit'
 import cors from 'cors'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 // Add your routes here
 const setupApp = (client: Client): express.Application => {
@@ -14,11 +16,6 @@ const setupApp = (client: Client): express.Application => {
 
 	app.use(express.json())
 
-	app.get('/examples', async (_req, res) => {
-		const { rows } = await client.query(`SELECT * FROM example_table`)
-		res.json(rows)
-	})
-
 	return app
 }
 
@@ -27,7 +24,7 @@ const connect = async (): Promise<Client> => {
 	console.log('Connecting')
 	const resource = `tcp:${process.env.PGHOST}:${process.env.PGPORT}`
 	console.log(`Waiting for ${resource}`)
-	await waitOn({ resources: [resource] })
+	await waitOn({ resources: [resource] }, () => {})
 	console.log('Initializing client')
 	const client = new Client()
 	await client.connect()
