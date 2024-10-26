@@ -16,6 +16,37 @@ const setupApp = (client: Client): express.Application => {
 
 	app.use(express.json())
 
+	app.get('/getComponentStyle/:id', async (req, res) => {
+		const { id } = req.params as { id: string }
+		if (!id && isNaN(+id)) {
+			res.json({ error: 'Id not provided' })
+			return
+		}
+		let componentValues = await prisma.component.findUnique({
+			where: { id: +id }
+		})
+		// just for the demo when component with id = 1
+		// not present will add it.
+		if (!componentValues) {
+			componentValues = await prisma.component.create({})
+		}
+		res.json(componentValues)
+	})
+
+	app.post('/setComponentStyle/:id', async (req, res) => {
+		const componentId = req.params.id as string
+		const { styleName, value } = req.body
+		if (!componentId && isNaN(+componentId)) {
+			res.json({ error: 'Id not provided' })
+			return
+		}
+		const values = await prisma.component.update({
+			where: { id: +componentId },
+			data: { [styleName]: value }
+		})
+		res.json(values)
+	})
+
 	return app
 }
 
