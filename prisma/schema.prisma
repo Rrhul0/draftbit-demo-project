@@ -7,8 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model example_table {
-  id        Int     @id @default(autoincrement())
-  some_int  Int?
-  some_text String?
+model Component {
+  id            Int     @id @default(autoincrement())
+  marginLeft    String? @default("")
+  marginRight   String? @default("")
+  marginTop     String? @default("")
+  marginBottom  String? @default("")
+  paddingLeft   String? @default("")
+  paddingRight  String? @default("")
+  paddingTop    String? @default("")
+  paddingBottom String? @default("")
 }

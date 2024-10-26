@@ -2,7 +2,7 @@ FROM postgres:14.1-alpine
 
 ENV AUTO_INIT=/docker-entrypoint-initdb.d
 
-COPY ./create-tables.sql ${AUTO_INIT}/create-tables.sql
+# COPY ./create-tables.sql ${AUTO_INIT}/create-tables.sql
 ENV POSTGRES_PASSWORD=draftbit
 
 RUN set -e \
