@@ -17,19 +17,24 @@ module Response = {
   external statusText: t => string = "statusText"
 }
 
-type options = {headers: Js.Dict.t<string>}
+type method = [#GET|#POST|#PUT|#DELETE]
+
+type options = {
+  headers: Js.Dict.t<string>,
+  method: method,
+  body: option<string>
+}
 
 @val
-external fetch: (string, options) => Js.Promise.t<Response.t> = "fetch"
+external fetch: (string, option<options>) => promise<Response.t> = "fetch"
 
-let fetchJson = (~headers=Js.Dict.empty(), url: string): Js.Promise.t<Js.Json.t> =>
-  fetch(url, {headers: headers}) |> Js.Promise.then_(res =>
-    if !Response.ok(res) {
-      res->Response.text->Js.Promise.then_(text => {
-        let msg = `${res->Response.status->Js.Int.toString} ${res->Response.statusText}: ${text}`
-        Js.Exn.raiseError(msg)
-      }, _)
-    } else {
-      res->Response.json
-    }
-  )
+let fetchJson = async (~options=?, url: string,): Js.Promise.t<Js.Json.t> =>{
+  let response = await fetch(url, options)
+  if !Response.ok(response) {
+    let text = await response->Response.text
+    let msg = `${response->Response.status->Belt.Int.toString} ${response->Response.statusText}: ${text}`
+    Js.Exn.raiseError(msg)
+  } else {
+    response->Response.json
+  }
+}
