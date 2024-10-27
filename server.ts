@@ -35,16 +35,23 @@ const setupApp = (client: Client): express.Application => {
 
 	app.post('/setComponentStyle/:id', async (req, res) => {
 		const componentId = req.params.id as string
-		const { styleName, value } = req.body
+		const { styleName, value } = req.body as {
+			styleName: string
+			value: string
+		}
 		if (!componentId && isNaN(+componentId)) {
 			res.json({ error: 'Id not provided' })
 			return
 		}
-		const values = await prisma.component.update({
-			where: { id: +componentId },
-			data: { [styleName]: value }
-		})
-		res.json(values)
+		try {
+			const values = await prisma.component.update({
+				where: { id: +componentId },
+				data: { [styleName]: value }
+			})
+			res.json(values)
+		} catch (error) {
+			res.json({ error: 'something went wrong' })
+		}
 	})
 
 	return app
